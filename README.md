@@ -1,10 +1,10 @@
-# Freemarker Process Activity
-The Freemarker process activity allows you to create message content using Freemarker templates.  It provides a powerful content creation mechanism that can address any element in the process and message contexts, including headers, parameters, content, and more.  It includes helper methods for returning message context as an XML document structure or a string for easy addressing using the Freemarker template syntax.
+# FreeMarker Process Activity
+The FreeMarker process activity allows you to create message content using FreeMarker templates.  It provides a powerful content creation mechanism that can address any element in the process and message contexts, including headers, parameters, content, and more.  It includes helper methods for returning message context as an XML document structure or a string for easy addressing using the FreeMarker template syntax.
 
 ## Activity Overview
 The activity is very easy to use, you simply provide a freemarker template, and specify the message variable the content of which you will replace with the results of processing the template, and the Content-Type of the resulting message content.
 
-The activity populates the Freemarker data model with all the variables named in the processContext, most notably the default message variable.  For details on the processContext and messageContext see the [script api documentation](http://docs.akana.com/ag/assets/scriptDocs/index.html).
+The activity populates the FreeMarker data model with all the variables named in the processContext, most notably the default message variable.  For details on the processContext and messageContext see the [script api documentation](http://docs.akana.com/ag/assets/scriptDocs/index.html).
 
 There are two added helper methods in each message context:
 
@@ -18,7 +18,6 @@ A simple template for processing a JSON document might look like:
 ```
 <#assign m = message.contentAsString?eval>
 <name>${m.pet.name}</name>
-}
 ```
 
 With an input of this JSON document:
@@ -38,12 +37,12 @@ This will return a result of:
 ```
 <name>fido</name>
 ```
-## Freemarker Introduction
-Freemarker is very powerful and I am not going to attempt to cover the template language here.  For a comprehensive description of the template language please visit [Freemarker.org](http://freemarker.org/docs/index.html). 
+## FreeMarker Introduction
+FreeMarker is very powerful and I am not going to attempt to cover the template language here.  For a comprehensive description of the template language please visit [FreeMarker.org](http://freemarker.org/docs/index.html). 
 
-The important thing with Freemarker is to understand the concept.  Essentially what Freemarker does is to provide a means of creating a template that outputs text with the ability to insert content in the template based on extracting information from an input data model (in our case the data model is built from the source message and process context).  Freemarker provides a language for specifying how to insert content from the data model, and it provides a set of control directives for looping through content and using conditionals etc.
+The important thing with FreeMarker is to understand the concept.  Essentially what FreeMarker does is to provide a means of creating a template that outputs text with the ability to insert content in the template based on extracting information from an input data model (in our case the data model is built from the source message and process context).  FreeMarker provides a language for specifying how to insert content from the data model, and it provides a set of control directives for looping through content and using conditionals etc.
 
-At its core a Freemarker template is just the text that is going to be output, for example this template:
+At its core a FreeMarker template is just the text that is going to be output, for example this template:
 
 ```
 <html>
@@ -55,7 +54,7 @@ At its core a Freemarker template is just the text that is going to be output, f
 
 Would simply output that piece of static html.
 
-Of course, that would be pretty useless, so Freemarker provides a language for inserting values from the data model into the template, e.g.
+Of course, that would be pretty useless, so FreeMarker provides a language for inserting values from the data model into the template, e.g.
 
 ```
 <html>
@@ -70,12 +69,12 @@ Extracts the user value from the data model and uses it to generate a personaliz
 The data model is heirarchical, so if your user value is actually an object, then you would access the inner values using a dot notation, like ```${user.name.lastname}```.  This is a very important point, the value that you try and insert MUST be a scalar value, for example if your ```user``` value was a complex object, and you tried ```${user}``` the template rendering would fail with an error like: 
 > "${...}" content: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to an extended_hash
 
-The Freemarker process activity **replaces** the content of the specified message variable with the result of running a template over the data model. 
+The FreeMarker process activity **replaces** the content of the specified message variable with the result of running a template over the data model. 
 
 This guide provides a couple of examples showing ways you can use this activity to deliver some common use-cases. 
 
 ## Extracting data from XML
-Freemarker provides an easy way to extract some elements from an XML document with a complex structure and use their values to generate JSON, or even HTML without having to become an XSLT expert.  Freemarker doesn't eliminate the need for XSLT, but it does provide a simpler alternative for many common uses.
+FreeMarker provides an easy way to extract some elements from an XML document with a complex structure and use their values to generate JSON, or even HTML without having to become an XSLT expert.  FreeMarker doesn't eliminate the need for XSLT, but it does provide a simpler alternative for many common uses.
 
 We'll work from a fairly simply document, this will be enough to show a lot of the common approaches and pitfalls:
 
@@ -121,7 +120,7 @@ Will have the same effect as the first template, but is much more readable.
 > NOTE: if you have multiple namespaces in your message, pick the one you will need to access the most for your default, and then remember that you will have to use array notation with the prefixes to address elements in other namespaces.
 
 ## Creating an XML Document
-Remember that the Freemarker template is essentially just the text you will output, so if you want to create an XML document, you are going to simply write your document.  Rewriting the example above to output XML instead of JSON we might end up with something like this:
+Remember that the FreeMarker template is essentially just the text you will output, so if you want to create an XML document, you are going to simply write your document.  Rewriting the example above to output XML instead of JSON we might end up with something like this:
 
 ```
 <#ftl ns_prefixes={"D":"http://demo.akana.com/borrower"}>
@@ -134,7 +133,7 @@ Remember that the Freemarker template is essentially just the text you will outp
 > NOTE: you have to manually structure your document and make you produce valid XML complete with namespace definitions and prefixes (of course if you want to, you can create invalid XML, the product won't complain unless you then ask it to mediate it.
 
 ## Extracting Data from JSON
-JSON data is structured remarkably similarly to a Freemarker data model.  Freemarker provides a simple ```eval``` utility for evaluating a string containing a JSON document and mapping it to a data model.
+JSON data is structured remarkably similarly to a FreeMarker data model.  FreeMarker provides a simple ```eval``` utility for evaluating a string containing a JSON document and mapping it to a data model.
 
 The following examples will all work with this fairly complex JSON document:
 
@@ -244,7 +243,7 @@ Will return:
 { "name" : "Tyrannosaurus" }
 ```
 
-> NOTE: the <#assign> directive uses our helper function to return the string value of the message content and the Freemarker eval function to map the JSON document to the data model
+> NOTE: the <#assign> directive uses our helper function to return the string value of the message content and the FreeMarker eval function to map the JSON document to the data model
 
 Of course it's really not that useful to be be forced to manually select which element in the array you want to work with, and this is where the ```<#list>``` directive comes in:
 
