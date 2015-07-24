@@ -1,0 +1,90 @@
+[
+    {
+        "category": {
+            "id": 100,
+            "name": "Dinosaur"
+        },
+        "name": "Tyrannosaurus",
+        "photoUrls": [
+            "http://en.wikipedia.org/wiki/Tyrannosaurus#/media/File:Tyrannosaurus_rex_mmartyniuk.png"
+        ],
+        "tags": [
+            {
+                "id": 100,
+                "name": "reptile"
+            },
+            {
+                "id": 101,
+                "name": "dinosaur"
+            }
+        ],
+        "status": "available",
+        "id": "100",
+        "href": "http://localhost:9900/things/petstore/100"
+    },
+    {
+        "category": {
+            "id": 200,
+            "name": "Dog"
+        },
+        "name": "Rover",
+        "photoUrls": [
+            "http://en.wikipedia.org/wiki/Tyrannosaurus#/media/File:Tyrannosaurus_rex_mmartyniuk.png"
+        ],
+        "tags": [
+            {
+                "id": 102,
+                "name": "mammal"
+            },
+            {
+                "id": 103,
+                "name": "dog"
+            }
+        ],
+        "status": "available",
+        "id": "101",
+        "href": "http://localhost:9900/things/petstore/101"
+    },
+    {
+        "category": {
+            "id": 200,
+            "name": "Dog"
+        },
+        "name": "Fido",
+        "photoUrls": [],
+        "tags": [
+            {
+                "id": 102,
+                "name": "mammal"
+            },
+            {
+                "id": 103,
+                "name": "dog"
+            }
+        ],
+        "status": "available",
+        "id": "102",
+        "href": "http://localhost:9900/things/petstore/102"
+    },
+    {
+        "id": "1433943941767",
+        "category": {
+            "id": 100,
+            "name": "Dinosaur"
+        },
+        "name": "Brontosuarus",
+        "photoUrls": [],
+        "tags": [
+            {
+                "id": 100,
+                "name": "reptile"
+            },
+            {
+                "id": 101,
+                "name": "dinosaur"
+            }
+        ],
+        "status": "sold",
+        "href": "http://localhost:9900/things/petstore/1433943941767"
+    }
+]

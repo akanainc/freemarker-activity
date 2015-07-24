@@ -1,0 +1,13 @@
+<br:add xmlns:br="http://demo.akana.com/borrower">
+   <br:borrower>
+      <br:id>111-11-1111</br:id>
+      <br:ssn>111-11-1111</br:ssn>
+      <br:city>Los Angeles</br:city>
+      <br:first>John</br:first>
+      <br:last>Smith</br:last>
+      <br:line1>12100 Wilshire Blvd</br:line1>
+      <br:phone>310-000-0000</br:phone>
+      <br:state>CA</br:state>
+      <br:zip>90025</br:zip>
+   </br:borrower>
+</br:add>
