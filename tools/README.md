@@ -1,12 +1,12 @@
 # Template Test Utilities
 
-The tools here provides couple of simple utilities for quickly testing a template against content you provide without installing the Akana FreeMarker Activity for the API Gateway.
+The tools here provides couple of simple utilities for quickly testing a template against content you provide without installing the Akana FreeMarker Activity for the Akana API Gateway.
 
 The tools mimic the Akana FreeMarker Activity helper methods creating a top-level object in the data model called `message` and adding `contentAsXml` and `contentAsString` methods appropriately.
 
 ## Executable jar
 
-The tools jar can be obtained from the releases section.
+The template-tester.jar can be obtained from the releases section.
 
 ### Usage
 
@@ -14,18 +14,18 @@ The tools jar can be obtained from the releases section.
 	 -content <contenttype>   content type of model
 	 -help                    print this message
 
-Example
+Example usage
 
-	java -jar template-tester-0.0.1.jar samples/sample2.1.ftl samples/sample2_data.xml
+	java -jar template-tester.jar samples/sample2.1.ftl samples/sample2_data.xml
 
-With the `-content` flag, you can specify the input type of the data model file.
+Note that the content type of the data file is inferred from the extension. This can be overridden with the `-content` flag.  The `-content` specifies the input type of the data model file.
 
-	java -jar template-tester-0.0.1.jar -content json samples/sample4.ftl samples/sample4_data.json
+	java -jar template-tester.jar -content json samples/sample4.ftl samples/sample4_data.json
 
 
 Example run:
 
-	java -jar template-tester-0.0.1.jar -content json samples/sample4.ftl samples/sample4_data.json
+	java -jar template-tester.jar -content json samples/sample4.ftl samples/sample4_data.json
 
 	Processing ftl   : samples/sample4.ftl
 	  with data model: samples/sample4_data.json

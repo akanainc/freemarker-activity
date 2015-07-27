@@ -19,6 +19,7 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.xml.sax.SAXException;
 
 import freemarker.template.Configuration;
@@ -42,11 +43,16 @@ public class App
         		.hasArg()
         		.withDescription("content type of model")
         		.create("content");
+        Option optionUrlPath = OptionBuilder.withArgName("url")
+        		.hasArg()
+        		.withDescription("url path and parameters")
+        		.create("url");
         
         Option optionHelp = new Option("help", "print this message");
         
         options.addOption(optionHelp);
         options.addOption(optionContentType);
+        options.addOption(optionUrlPath);
         
         CommandLineParser parser = new DefaultParser();
        
@@ -60,12 +66,6 @@ public class App
 				return;
 			}
 			
-			// Assign content type
-			String contentType = "text/xml";
-			if (cmd.hasOption("content")) {
-				contentType = cmd.getOptionValue("content");
-			} 
-			
 			String[] remainingArguments = cmd.getArgs();
 			if (remainingArguments.length < 2) {
 				showHelp(options);
@@ -74,28 +74,39 @@ public class App
 			String ftlPath, dataPath = "none";
 			
 			ftlPath = remainingArguments[0];
-				dataPath = remainingArguments[1];
+			dataPath = remainingArguments[1];
+			
+			String contentType = "text/xml";
+			// Discover content type from file extension
+			String ext = FilenameUtils.getExtension(dataPath);
+			if (ext.equals("json")) {
+				contentType = "json";
+			}
+			// Override discovered content type
+			if (cmd.hasOption("content")) {
+				contentType = cmd.getOptionValue("content");
+			} 
 			
 			System.out.println("Processing ftl   : " + ftlPath);
 			System.out.println("  with data model: " + dataPath);
 			System.out.println("with content-type: " + contentType);
 			
-			Configuration cfg = new Configuration(Configuration.VERSION_2_3_22);
+			Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
 			cfg.setDirectoryForTemplateLoading(new File("."));
 			cfg.setDefaultEncoding("UTF-8");
 			cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
 			
 			/* Create a data-model */
-			Map message = new HashMap();
+			Map<String,Object> message = new HashMap<String,Object>();
 			if (contentType.contains("json")) {
 				message.put("contentAsString", 
 						FileUtils.readFileToString(new File(dataPath),
 						StandardCharsets.UTF_8));
 			} else {
-				message.put("contentAsXml", freemarker.ext.dom.NodeModel
-						.parse(new File(dataPath)));
-				
+				message.put("contentAsXml", 
+						freemarker.ext.dom.NodeModel.parse(new File(dataPath)));
 			}
+
 			Map root = new HashMap();
 			root.put("message", message);
 
