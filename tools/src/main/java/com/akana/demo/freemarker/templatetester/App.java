@@ -1,3 +1,19 @@
+/*
+ * Copyright 2015 Akana, Inc.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.akana.demo.freemarker.templatetester;
 
 import java.io.File;
@@ -100,14 +116,17 @@ public class App
 			Map<String,Object> message = new HashMap<String,Object>();
 			if (contentType.contains("json")) {
 				message.put("contentAsString", 
-						FileUtils.readFileToString(new File(dataPath),
-						StandardCharsets.UTF_8));
+						FileUtils.readFileToString(new File(dataPath), StandardCharsets.UTF_8));
 			} else {
 				message.put("contentAsXml", 
 						freemarker.ext.dom.NodeModel.parse(new File(dataPath)));
 			}
 
-			Map root = new HashMap();
+			if (cmd.hasOption("url")) {
+				message.put("getProperty", new AkanaGetProperty(cmd.getOptionValue("url")));
+			}
+			
+			Map<String, Object> root = new HashMap<String, Object>();
 			root.put("message", message);
 
 			/* Get the template (uses cache internally) */
