@@ -2,7 +2,7 @@
 
 The tools here provides couple of simple utilities for quickly testing a template against content you provide without installing the Akana FreeMarker Activity for the Akana API Gateway.
 
-The tools mimic the Akana FreeMarker Activity helper methods creating a top-level object in the data model called `message` and adding `contentAsXml` and `contentAsString` methods appropriately.
+The tools mimic the Akana FreeMarker Activity helper methods creating a top-level object in the data model called `message` and adding `contentAsXml`, `contentAsString`, and a limited `getProperty` methods appropriately.
 
 ## Executable jar
 
