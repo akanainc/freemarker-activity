@@ -44,8 +44,8 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 
 /**
- * Hello world!
- *
+ * Template tester app, with simulation of Akana API Gateway Message object
+ * methods.
  */
 public class App 
 {
@@ -55,20 +55,39 @@ public class App
         final Options options = new Options();
       
         @SuppressWarnings("static-access")
-		Option optionContentType = OptionBuilder.withArgName("contenttype")
+		Option optionContentType = OptionBuilder.withArgName("content-type")
         		.hasArg()
         		.withDescription("content type of model")
         		.create("content");
-        Option optionUrlPath = OptionBuilder.withArgName("url")
+        @SuppressWarnings("static-access")
+        Option optionUrlPath = OptionBuilder.withArgName("httpRequestLine")
         		.hasArg()
-        		.withDescription("url path and parameters")
+        		.withDescription("url path and parameters in HTTP Request Line format")
         		.create("url");
+        @SuppressWarnings("static-access")
+        Option optionRootMessageName = OptionBuilder.withArgName("messageName")
+        		.hasArg()
+        		.withDescription("root data object name, defaults to 'message'")
+        		.create("root");
+        @SuppressWarnings("static-access")
+        Option optionAdditionalMessages = OptionBuilder.withArgName("dataModelPaths")
+        		.hasArgs(Option.UNLIMITED_VALUES)
+        		.withDescription("additional message object data sources")
+        		.create("messages");
+        @SuppressWarnings("static-access")
+        Option optionDebugMessages = OptionBuilder
+        		.hasArg(false)
+        		.withDescription("Shows debug information about template processing")
+        		.create("debug");
         
         Option optionHelp = new Option("help", "print this message");
         
         options.addOption(optionHelp);
         options.addOption(optionContentType);
         options.addOption(optionUrlPath);
+        options.addOption(optionRootMessageName);
+        //options.addOption(optionAdditionalMessages);
+        options.addOption(optionDebugMessages);
         
         CommandLineParser parser = new DefaultParser();
        
@@ -101,18 +120,34 @@ public class App
 			// Override discovered content type
 			if (cmd.hasOption("content")) {
 				contentType = cmd.getOptionValue("content");
-			} 
-			
-			System.out.println("Processing ftl   : " + ftlPath);
-			System.out.println("  with data model: " + dataPath);
-			System.out.println("with content-type: " + contentType);
+			}
+			// Root data model name
+			String rootMessageName = "message";
+			if (cmd.hasOption("root")) {
+				rootMessageName = cmd.getOptionValue("root");
+			}
+			// Additional data models
+			String[] additionalModels = new String[0];
+			if (cmd.hasOption("messages")) {
+				additionalModels = cmd.getOptionValues("messages");
+			}
+			// Debug Info
+			if (cmd.hasOption("debug")) {
+				System.out.println(" Processing ftl   : " + ftlPath);
+				System.out.println("   with data model: " + dataPath);
+				System.out.println(" with content-type: " + contentType);
+				System.out.println(" data model object: " + rootMessageName);
+				if (cmd.hasOption("messages")) {
+					System.out.println("additional models: " + additionalModels.length);
+				}
+			}
 			
 			Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
 			cfg.setDirectoryForTemplateLoading(new File("."));
 			cfg.setDefaultEncoding("UTF-8");
 			cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
 			
-			/* Create a data-model */
+			/* Create the primary data-model */
 			Map<String,Object> message = new HashMap<String,Object>();
 			if (contentType.contains("json")) {
 				message.put("contentAsString", 
@@ -127,7 +162,7 @@ public class App
 			}
 			
 			Map<String, Object> root = new HashMap<String, Object>();
-			root.put("message", message);
+			root.put(rootMessageName, message);
 
 			/* Get the template (uses cache internally) */
 			Template temp = cfg.getTemplate(ftlPath);
@@ -157,6 +192,6 @@ public class App
     
     public static void showHelp(Options options) {
     	HelpFormatter formatter = new HelpFormatter();
-		formatter.printHelp("template-tester <FTL_FILE> <MODEL_FILE>", options);
+		formatter.printHelp("template-tester [OPTIONS] <FTL_FILE> <MODEL_FILE>", options);
     }
 }
