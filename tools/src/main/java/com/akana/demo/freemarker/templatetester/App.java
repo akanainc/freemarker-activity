@@ -116,6 +116,8 @@ public class App
 			String ext = FilenameUtils.getExtension(dataPath);
 			if (ext.equals("json")) {
 				contentType = "json";
+			} else if (ext.equals("txt")) {
+				contentType = "txt";
 			}
 			// Override discovered content type
 			if (cmd.hasOption("content")) {
@@ -149,7 +151,7 @@ public class App
 			
 			/* Create the primary data-model */
 			Map<String,Object> message = new HashMap<String,Object>();
-			if (contentType.contains("json")) {
+			if (contentType.contains("json") || contentType.contains("txt")) {
 				message.put("contentAsString", 
 						FileUtils.readFileToString(new File(dataPath), StandardCharsets.UTF_8));
 			} else {

@@ -10,10 +10,14 @@ The template-tester.jar can be obtained from the releases section.
 
 ### Usage
 
-	usage: template-tester <FTL_FILE> <MODEL_FILE>
-	 -content <contenttype>   content type of model
-	 -help                    print this message
-	 -url <url>               url path and parameters
+	usage: template-tester [OPTIONS] <FTL_FILE> <MODEL_FILE>
+	 -content <content-type>   content type of model
+	 -debug                    Shows debug information about template
+	                           processing
+	 -help                     print this message
+	 -root <messageName>       root data object name, defaults to 'message'
+	 -url <httpRequestLine>    url path and parameters in HTTP Request Line
+	                           format
 
 Example usage
 
@@ -26,7 +30,7 @@ Note that the content type of the data file is inferred from the extension. This
 
 Example run:
 
-	java -jar template-tester.jar samples/sample4.ftl samples/sample4_data.json
+	java -jar template-tester.jar -debug samples/sample4.ftl samples/sample4_data.json
 
 	Processing ftl   : samples/sample4.ftl
 	  with data model: samples/sample4_data.json
@@ -41,7 +45,7 @@ Example run:
 
 Example with HTTP URL `-url` string (note, the HTTP URL must be in the [HTTP RFC7230 3.1.1 Request Line](https://tools.ietf.org/html/rfc7230#section-3.1.1) format):
 
-	java -jar target/template-tester.jar -url "GET /test/fm/fm/aggregate/people/AC3?start=12 HTTP/1.1" samples/urlextract.ftl samples/sample4_data.json
+	java -jar target/template-tester.jar -url "GET /test/fm/fm/aggregate/people/AC3?start=12 HTTP/1.1" -debug samples/urlextract.ftl samples/sample4_data.json
 
 	Processing ftl   : samples/urlextract.ftl
 	  with data model: samples/sample4_data.json
@@ -50,7 +54,7 @@ Example with HTTP URL `-url` string (note, the HTTP URL must be in the [HTTP RFC
 
 Note that the model data is still required, though the template in this example does not use it. Here's an example that does use the model (although in an HTTP `GET` there wouldn't be body data):
 
-	java -jar target/template-tester.jar -url "GET /test/fm/fm/aggregate/people/AC3?start=12 HTTP/1.1" samples/urlextract2.ftl samples/sample4_data.json
+	java -jar target/template-tester.jar -url "GET /test/fm/fm/aggregate/people/AC3?start=12 HTTP/1.1" -debug samples/urlextract2.ftl samples/sample4_data.json
 
 	Processing ftl   : samples/urlextract2.ftl
 	  with data model: samples/sample4_data.json
@@ -60,6 +64,17 @@ Note that the model data is still required, though the template in this example 
 	  "pet": "Rover"
 	}
 
+Example with a model message named something other than "message" (the default name of the model), use the `-root` flag (also, note, without `-debug` no debug output will be printed):
+
+	java -jar target/template-tester.jar -root doc  samples/sample4.1.ftl samples/sample4_data.json
+	{
+	  "name" : [
+			"Dinosaur",
+			"Rover",
+			"Fido",
+			"Brontosuarus"  ]
+	}
+ 
 ### Build
 
 To build an executable jar, use maven:

@@ -1,5 +1,10 @@
 # Changelog for FreeMarker Template Tester
 
+## 0.0.3
+
+* Set the message name via flag `-root` (defaults to "message")
+* Outputs debug info now only with the flag `-debug`
+* Support for `.txt` extension on model files
 
 ## 0.0.2
 
