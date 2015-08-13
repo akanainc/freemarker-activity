@@ -248,7 +248,7 @@ Will return:
 Of course it's really not that useful to be be forced to manually select which element in the array you want to work with, and this is where the ```<#list>``` directive comes in:
 
 ```
-<#assign m = doc?eval>
+<#assign m = message.contentAsString?eval>
 {
   "name" : [
 	<#list m as pet>
@@ -264,7 +264,7 @@ This template iterates through the elements in the top-level array (assigned to 
 When the template fails in the activity it will output any exceptions to a debug entry in the message log.  The most common failures once you have a template working will be when an element doesn't exist.  Take our JSON document example above.  If one of the pet objects didn't have a name, then our listing template would fail.  To get around this, we can use conditionals around elements that may or may not be present.  For example:
 
 ```
-<#assign m = doc?eval>
+<#assign m = message.contentAsString?eval>
 {
   "name" : [
 	<#list m as pet>
