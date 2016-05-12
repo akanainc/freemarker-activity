@@ -1,11 +1,27 @@
 # XML Manipulation
 
-Here's a neat little piece of Freemarker code that comes in really useful for turning REST requests with multiple params into a valud SOAP request.  I didn't know that Freemarker was as good with XML as it is (not quite a good with namespace management as XSL, but still pretty darn good).  Here are a couple of links to the freemarker docs:  
+Here's a neat little piece of Freemarker code that comes in really useful for turning REST requests with multiple params into a valid SOAP request.  I didn't know that Freemarker was as good with XML as it is (not quite a good with namespace management as XSL, but still pretty darn good).  Here are a couple of links to the freemarker docs:  
 
 * Imperative XML Processing - http://freemarker.org/docs/xgui_imperative_formal.html
 * XML Handling & Namespaces - http://freemarker.org/docs/xgui_imperative_learn.html#autoid_73
 
-The code below is quite simple.  It works on a fairly simple input XML doc, the complexity is that the REST request also includes a path param (called id).  The input doc was defined via CM as a model object for the API and as such is in the jsonSchema namespace. 
+The code below is quite simple.  It works on a fairly simple input XML doc, the complexity is that the REST request also includes a path param (called id).  The input doc was defined via CM as a model object for the API and as such is in the jsonSchema namespace. The submitted JSON looks like:
+
+```
+{
+    "ID": "555555555",
+    "SSN": "555555555",
+    "city": "My Town",
+    "first": "Me",
+    "last": "Still",
+    "line1": "Home",
+    "phone": "555-1212",
+    "state": "CA",
+    "zip": "90000"
+}
+```
+
+Which results in a normalized message like this:
 
 ```
 <resource xmlns="http://soa.com/jsonSchema">
