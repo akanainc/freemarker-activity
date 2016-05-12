@@ -26,7 +26,7 @@ Basically the Freemarker template does:
 * Sets the default namespace to jsonSchema so that I can use dot notation to access the elements
 * Assigns a variable using the contentAsXml helper function
 * Creates a shell of the XML document
-** NOTE: it uses un-prefixed XML so that everything in the generated message with no prefix will be in the defined namespace (http://soap.borrower.demo.soa.com)
+  * NOTE: it uses un-prefixed XML so that everything in the generated message with no prefix will be in the defined namespace (http://soap.borrower.demo.soa.com)
 * Accesses the id path param using getPart
 * Accesses the child elements of the <resource> node using the dot notation and turns them all into text with @@markup
 
