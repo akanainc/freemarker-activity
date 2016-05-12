@@ -1,3 +1,5 @@
+# XML Manipulation
+
 Here's a neat little piece of Freemarker code that comes in really useful for turning REST requests with multiple params into a valud SOAP request.  I didn't know that Freemarker was as good with XML as it is (not quite a good qith namespace management as XSL, but still, pretty darn good).  Here are a couple of links to the freemarker docs:  
 
 * Imperative XML Processing - http://freemarker.org/docs/xgui_imperative_formal.html
