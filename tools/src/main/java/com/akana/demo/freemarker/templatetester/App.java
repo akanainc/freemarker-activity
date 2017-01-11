@@ -86,7 +86,7 @@ public class App
         options.addOption(optionContentType);
         options.addOption(optionUrlPath);
         options.addOption(optionRootMessageName);
-        //options.addOption(optionAdditionalMessages);
+        options.addOption(optionAdditionalMessages);
         options.addOption(optionDebugMessages);
         
         CommandLineParser parser = new DefaultParser();
@@ -165,6 +165,12 @@ public class App
 			
 			Map<String, Object> root = new HashMap<String, Object>();
 			root.put(rootMessageName, message);
+			if (additionalModels.length > 0) {
+				for (int i = 0; i < additionalModels.length; i++) {
+					Map<String,Object> m = createMessageFromFile(additionalModels[i], contentType);
+					root.put("message" + i, m);
+				}
+			}
 
 			/* Get the template (uses cache internally) */
 			Template temp = cfg.getTemplate(ftlPath);
@@ -195,5 +201,29 @@ public class App
     public static void showHelp(Options options) {
     	HelpFormatter formatter = new HelpFormatter();
 		formatter.printHelp("template-tester [OPTIONS] <FTL_FILE> <MODEL_FILE>", options);
+    }
+
+    // creates a HashMap (freemarker message model) from a files path
+    private static Map<String,Object> createMessageFromFile(String dataPath, String contentType) {
+    	Map<String,Object> message = new HashMap<String,Object>();
+    	try {
+			if (contentType.contains("json") || contentType.contains("txt")) {
+				message.put("contentAsString", 
+						FileUtils.readFileToString(new File(dataPath), StandardCharsets.UTF_8));
+			} else {
+				message.put("contentAsXml", 
+						freemarker.ext.dom.NodeModel.parse(new File(dataPath)));
+			}
+		} catch (IOException e) {
+			System.out.println("Unable to parse ftl.");
+			e.printStackTrace();
+		} catch (SAXException e) {
+			System.out.println("XML parsing issue.");
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			System.out.println("Unable to configure parser.");
+			e.printStackTrace();
+		}
+		return message;
     }
 }
