@@ -9,7 +9,7 @@ The activity populates the FreeMarker data model with all the variables named in
 There are two added helper methods in each message context:
 
 * contentAsString - returns the message content as a string
-* contentAsXML - returns the message content as an XML DOM object
+* contentAsXml - returns the message content as an XML DOM object
 
 You can access any of the properties in each context using a dot notation that skips the get prefix on the propery, e.g. a method in the script API of ```getTransportHeaders()``` can be accessed as a property using ```message.transportHeaders```.  This will access the transportHeaders property of the default message context.  Note: while many properties will directly return a scalar value, this example will return a Headers map and to use this in a template you will need to find a specific instance of a header using something like ```${message.transportHeaders.get("User-Agent").value}```.
 
