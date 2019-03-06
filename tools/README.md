@@ -6,7 +6,7 @@ The tools mimic the Akana FreeMarker Activity helper methods creating a top-leve
 
 ## Executable jar
 
-The template-tester.jar can be obtained from the releases section.
+The template-tester.jar can be obtained from the release folder.
 
 ### Usage
 
